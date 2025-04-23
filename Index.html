@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Surprise for Suzan</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      text-align: center;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+    }
+
+    .start-screen, .main-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 1s ease;
+    }
+
+    .main-content {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .visible {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #ff2e63;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 22px;
+      border-radius: 12px;
+      border: none;
+      background-color: #ff2e63;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-top: 20px;
+    }
+
+    .message {
+      font-size: 28px;
+      margin-top: 30px;
+      color: #222;
+    }
+
+    .cake {
+      font-size: 80px;
+      margin-top: 20px;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 50px;
+      height: 70px;
+      background-color: red;
+      border-radius: 25px 25px 0 0;
+      animation: float 6s infinite;
+    }
+
+    @keyframes float {
+      0% {transform: translateY(0);}
+      100% {transform: translateY(-120vh);}
+    }
+
+    .fireworks {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background: url('https://i.gifer.com/origin/2d/2d3443f9dc79d508fe888bc93e3b7a64_w200.gif') center center no-repeat;
+      background-size: cover;
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .typewriter {
+      font-size: 42px;
+      color: #ff147f;
+      font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #ff147f;
+      width: 0;
+      animation: typing 4s steps(35) forwards, blink 0.75s step-end infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <h1>Hey Suzan, Click This!</h1>
+    <button onclick="startSurprise()">Click Me!</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <div class="fireworks"></div>
+
+    <audio autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="typewriter">Happy Birthday to you, my love</div>
+
+    <h1>Birthday Wish Generator</h1>
+    <input type="text" id="nameInput" placeholder="Enter Name" />
+    <button onclick="showWish()">Wish Now</button>
+
+    <div class="cake">🎂</div>
+    <div class="message" id="wishMessage"></div>
+    <button id="shareBtn" style="display:none;">Share on Instagram</button>
+  </div>
+
+  <script>
+    function startSurprise() {
+      document.getElementById('startScreen').style.opacity = '0';
+      document.getElementById('mainContent').classList.add('visible');
+    }
+
+    function createBalloon(color) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.backgroundColor = color;
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 7000);
+    }
+
+    setInterval(() => {
+      const colors = ['#ff2e63', '#08d9d6', '#fcb69f', '#ffb6b9', '#f38181'];
+      createBalloon(colors[Math.floor(Math.random() * colors.length)]);
+    }, 500);
+
+    function showWish() {
+      const name = document.getElementById('nameInput').value;
+      const message = `Happy Birthday, ${name}! May your day be full of cake, joy, and fireworks!`;
+      document.getElementById('wishMessage').innerText = message;
+
+      // Show share button
+      document.getElementById('shareBtn').style.display = 'inline-block';
+
+      // Instagram sharing
+      document.getElementById('shareBtn').onclick = function () {
+        const url = `https://www.instagram.com/`;
+        window.open(url, '_blank');
+        alert("Take a screenshot and share it on Instagram to wish them!");
+      };
+    }
+  </script>
+
+</body>
+</html>
